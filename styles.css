@@ -206,4 +206,57 @@ p.tiny {
   height: 80px;
   background: url('wave.svg') bottom center/cover no-repeat;
   margin-top: -80px;
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: unset;
+    padding: 2.5rem 0 1.5rem 0;
+    flex-direction: column;
+  }
+  .hero .container {
+    margin-top: 24px !important;
+    padding: 0 0.5rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 1.05rem;
+  }
+  main.container {
+    flex-direction: column !important;
+    gap: 1.2rem !important;
+    align-items: stretch !important;
+    padding: 1.2rem 0.2rem !important;
+  }
+  .rocket-side {
+    display: none !important;
+  }
+  .cats {
+    grid-template-columns: 1fr !important;
+    margin-top: 1.5rem;
+  }
+  .cat-card {
+    padding: 1.1rem 1rem;
+    min-height: 64px;
+    font-size: 1rem;
+  }
+  nav .logo {
+    max-height: 32px;
+    margin-left: 0.5rem;
+  }
+  nav .slogan {
+    max-height: 24px;
+    margin-left: 0.5rem;
+  }
+  .divider {
+    height: 40px;
+    margin-top: -40px;
+  }
+  /* Responsive iframe */
+  .hero iframe {
+    min-height: 180px;
+    max-height: 220px;
+  }
 } 
