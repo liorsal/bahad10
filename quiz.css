@@ -190,4 +190,38 @@ body,html {height:100%;margin:0;color:#111;}
 .home-btn:hover {
   background: #b71c1c;
   transform: translateY(-2px) scale(1.04);
+}
+
+.quiz-rocket {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 2.5rem;
+}
+.quiz-rocket img {
+  max-height: 320px;
+  width: auto;
+  border-radius: 1.2rem;
+  filter: drop-shadow(0 4px 24px #d32f2f22);
+  background: none;
+}
+@media (max-width: 700px) {
+  .quiz-rocket {
+    margin: 1.5rem auto 0 auto;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0;
+  }
+  .quiz-rocket img {
+    max-width: 180px;
+    max-height: 120px;
+    width: 100%;
+    height: auto;
+    border-radius: 1.2rem;
+    filter: drop-shadow(0 2px 12px #d32f2f22);
+    margin: 0 auto;
+    display: block;
+  }
 } 
