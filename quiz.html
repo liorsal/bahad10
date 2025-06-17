@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>טריוויה חכמה</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alef:wght@700&family=Heebo:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="quiz.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f2027" />
+</head>
+<body>
+  <a href="index.html" class="home-btn">חזרה לעמוד הבית</a>
+  <div class="privacy-splash hidden">המסך מוסתר. לחץ S שוב כדי לחזור.</div>
+  <main class="scene">
+    <section class="card" tabindex="-1">
+      <header class="progress-head">
+        <span class="step"></span>
+        <div class="bar"><div class="fill" style="width:5%"></div></div>
+      </header>
+      <h1 class="topic">טריוויה חכּמה</h1>
+      <p class="q-text" aria-live="polite">למי מייחסים את נורת החשמל?</p>
+      <ul class="answers">
+        <li><button data-correct>תומאס אדיסון</button></li>
+        <li><button>אלכסנדר בל</button></li>
+        <li><button>אלברט איינשטיין</button></li>
+        <li><button>ניקולה טסלה</button></li>
+      </ul>
+      <div class="explanation hidden">ההסבר לשאלה יופיע כאן.</div>
+      <footer class="progress-foot">
+        <div class="bar-bottom"><div class="fill-bottom"></div></div>
+      </footer>
+    </section>
+  </main>
+  <div class="progress-fixed">
+    <div class="progress-fixed__fill"></div>
+    <span class="progress-fixed__percent">0%</span>
+  </div>
+  <script src="quiz.js" defer></script>
+</body>
+</html> 
