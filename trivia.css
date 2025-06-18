@@ -229,7 +229,7 @@ h2, h3, h4, h5, h6, p, div, span, label {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 1.2em;
+  gap: 0.6em;
   align-items: center;
   border: 1.5px solid rgba(255,255,255,0.22);
   backdrop-filter: blur(18px) saturate(140%);
@@ -306,4 +306,32 @@ h2, h3, h4, h5, h6, p, div, span, label {
 .home-btn:hover {
   background: #b71c1c;
   transform: translateY(-2px) scale(1.04);
+}
+
+/* Did you know fact styling */
+.intro-card #cat-fact {
+  background: rgba(255,255,255,0.18);
+  padding: 0.8em 1em;
+  border-radius: 1em;
+  color: #fff;
+  font-size: 0.95rem;
+  margin-top: 0.5em;
+  width: 90%;
+  text-align: center;
+}
+/* Article link button styling */
+.intro-card #cat-link a {
+  display: inline-block;
+  margin-top: 0.6em;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.6em 1.2em;
+  border-radius: 1.2em;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: background 0.2s, transform 0.2s;
+}
+.intro-card #cat-link a:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
 }
