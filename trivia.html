@@ -12,6 +12,7 @@
     <h1 id="cat-name"></h1>
     <p id="cat-desc"></p>
     <p id="cat-fact" class="tiny" style="font-size:0.95rem;line-height:1.4;margin-top:1rem;"></p>
+    <p id="cat-link" class="tiny" style="font-size:0.95rem;line-height:1.4;margin-top:0.5rem;"></p>
     <button id="start-btn">התחל מבחן</button>
   </div>
   <script>
@@ -40,9 +41,18 @@
       9: 'הידעת? גם אם יש מטופלים שחוזרים כמה פעמים, ניתן לטפל בהם במעבר ולראות אם הקושי מנטלי, מעבר לפיזי',
       11: 'הידעת? ההרוג היחיד מחלכ במלחמת המפרץ נהרג כי לא פתח את הפלומבה של המסנן ומת מחנק'
     };
+    const links = {
+      1: 'https://www.ynet.co.il/health/article/rkvwuq1y0',
+      11: 'https://www.ynet.co.il/news/article/r1111wlnvc',
+      2: 'https://www.ynet.co.il/health/article/h1pjoe3rc#autoplay',
+      3: 'https://www.mako.co.il/health-news/local/Article-64ff099eaa34391026.htm',
+      9: 'https://www.ynet.co.il/article/4406732'
+    };
     document.getElementById('cat-name').textContent = names[cat] !== undefined ? names[cat] : '';
     document.getElementById('cat-desc').textContent = descs[cat] !== undefined ? descs[cat] : '';
     document.getElementById('cat-fact').textContent = facts[cat] || '';
+    const link = links[cat];
+    document.getElementById('cat-link').innerHTML = link ? `<a href="${link}" target="_blank" rel="noopener">כתבה מעניינת</a>` : '';
     document.getElementById('start-btn').onclick = function() {
       window.location.href = `quiz.html?category=${cat}`;
     };
