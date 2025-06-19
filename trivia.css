@@ -229,7 +229,7 @@ h2, h3, h4, h5, h6, p, div, span, label {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 0.6em;
+  gap: 0.4em;
   align-items: center;
   border: 1.5px solid rgba(255,255,255,0.22);
   backdrop-filter: blur(18px) saturate(140%);
@@ -310,28 +310,37 @@ h2, h3, h4, h5, h6, p, div, span, label {
 
 /* Did you know fact styling */
 .intro-card #cat-fact {
+  margin: 0.2em 0;
   background: rgba(255,255,255,0.18);
   padding: 0.8em 1em;
   border-radius: 1em;
   color: #fff;
   font-size: 0.95rem;
-  margin-top: 0.5em;
+  line-height: 1.4;
   width: 90%;
   text-align: center;
 }
 /* Article link button styling */
+.intro-card #cat-link {
+  margin: 0.2em 0 0.5em;
+}
 .intro-card #cat-link a {
   display: inline-block;
-  margin-top: 0.6em;
-  background: var(--accent);
+  background: linear-gradient(45deg, #ff5555, #ff9999);
   color: #fff;
-  padding: 0.6em 1.2em;
-  border-radius: 1.2em;
+  padding: 0.7em 1.4em;
+  border-radius: 50px;
   text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  font-weight: 700;
+  transition: transform 0.2s;
+  animation: bounce 3s infinite;
 }
 .intro-card #cat-link a:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
+  transform: scale(1.05) rotate(-1deg);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
 }

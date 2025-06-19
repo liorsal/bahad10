@@ -11,8 +11,10 @@
   <div class="intro-card">
     <h1 id="cat-name"></h1>
     <p id="cat-desc"></p>
-    <p id="cat-fact" class="tiny" style="font-size:0.95rem;line-height:1.4;margin-top:1rem;"></p>
-    <p id="cat-link" class="tiny" style="font-size:0.95rem;line-height:1.4;margin-top:0.5rem;"></p>
+    <p id="cat-fact" class="tiny" style="background:rgba(255,255,255,0.18);padding:0.8em 1em;border-radius:1em;color:#fff;font-size:0.95rem;line-height:1.4;margin:1rem auto 0;width:90%;text-align:center;"></p>
+    <p id="cat-link" class="tiny" style="font-size:0.95rem;line-height:1.4;margin:0.5rem auto 0;text-align:center;">
+      <a id="cat-link-a" style="display:inline-block;background:#e53935;color:#fff;padding:0.6em 1.2em;border-radius:1.2em;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.3);transition:background 0.2s,transform 0.2s;" href="" target="_blank" rel="noopener"></a>
+    </p>
     <button id="start-btn">התחל מבחן</button>
   </div>
   <script>
@@ -51,8 +53,14 @@
     document.getElementById('cat-name').textContent = names[cat] !== undefined ? names[cat] : '';
     document.getElementById('cat-desc').textContent = descs[cat] !== undefined ? descs[cat] : '';
     document.getElementById('cat-fact').textContent = facts[cat] || '';
-    const link = links[cat];
-    document.getElementById('cat-link').innerHTML = link ? `<a href="${link}" target="_blank" rel="noopener">כתבה מעניינת</a>` : '';
+    const linkUrl = links[cat];
+    const linkEl = document.getElementById('cat-link-a');
+    if(linkUrl) {
+      linkEl.href = linkUrl;
+      linkEl.textContent = 'כתבה מעניינת';
+    } else {
+      linkEl.remove();
+    }
     document.getElementById('start-btn').onclick = function() {
       window.location.href = `quiz.html?category=${cat}`;
     };
