@@ -1,0 +1,781 @@
+/Users/liorsalmanovich/Desktop/trivia_site/data.html<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>מחשבון תקציב – אתר ההדרכה</title>
+
+  <!-- ספרייה ל-ייצוא PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root{
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      --card-shadow-hover: 0 25px 50px rgba(0,0,0,0.15);
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --accent-color: #667eea;
+      --accent-light: #a78bfa;
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+      font-size: 18px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body{
+      background: var(--primary-gradient);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      font-size: var(--font-size);
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    h1{
+      margin: 0 0 2rem;
+      color: #000000;
+      text-align: center;
+      font-size: 2.8rem;
+      font-weight: 800;
+      text-shadow: 0 4px 20px rgba(255,255,255,0.8);
+      animation: fadeInScale 1s ease-out;
+      letter-spacing: -0.5px;
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    .card{
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--card-shadow);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 3rem;
+      max-width: 700px;
+      width: 100%;
+      transition: var(--transition);
+      animation: slideInUp 0.8s ease-out 0.3s backwards;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-gradient);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+    
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    
+    .slider-wrap{
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      min-width: 120px;
+    }
+    
+    input[type=range]{
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #e2e8f0 0%, var(--accent-color) 0%);
+      outline: none;
+      -webkit-appearance: none;
+      transition: var(--transition);
+    }
+    
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      transition: var(--transition);
+    }
+    
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+    }
+    
+    input[type=range]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .budget-val{
+      min-width: 120px;
+      font-weight: 800;
+      color: var(--accent-color);
+      font-size: 1.4rem;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    h2 {
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      position: relative;
+      padding-right: 2rem;
+    }
+    
+    h2::after {
+      content: '💡';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.2rem;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-5px); }
+      60% { transform: translateY(-3px); }
+    }
+    
+    ul{
+      margin: 0;
+      padding-right: 0;
+      line-height: 1.8;
+      list-style: none;
+    }
+    
+    li{
+      margin-bottom: 1rem;
+      position: relative;
+      padding-right: 2rem;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      transition: var(--transition);
+      animation: fadeInLeft 0.6s ease-out backwards;
+    }
+    
+    li:nth-child(1) { animation-delay: 0.1s; }
+    li:nth-child(2) { animation-delay: 0.2s; }
+    li:nth-child(3) { animation-delay: 0.3s; }
+    li:nth-child(4) { animation-delay: 0.4s; }
+    li:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    li::before {
+      content: '✨';
+      position: absolute;
+      right: 0;
+      color: var(--accent-color);
+      font-size: 1.1rem;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    li:hover {
+      color: var(--text-primary);
+      transform: translateX(-5px);
+      font-weight: 500;
+    }
+    
+    button{
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--accent-gradient);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
+    button:hover{
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+    }
+    
+    button:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+    
+    footer{
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding-top: 3rem;
+      font-weight: 300;
+      animation: fadeIn 1s ease-out 1s backwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .card {
+        padding: 2rem;
+      }
+      
+      .slider-wrap {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+      }
+      
+      label {
+        min-width: auto;
+        text-align: center;
+      }
+      
+      .budget-val {
+        min-width: auto;
+        font-size: 1.2rem;
+      }
+      
+      li {
+        font-size: 1rem;
+        padding-right: 1.5rem;
+      }
+      
+      button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+      }
+    }
+    
+    /* Loading states */
+    .loading {
+      animation: skeleton 1.5s ease-in-out infinite alternate;
+    }
+    
+    @keyframes skeleton {
+      0% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    
+    /* כפתור מידע */
+    .info-button {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      animation: fadeIn 1s ease-out 0.5s backwards;
+    }
+    
+    .info-button a {
+      text-decoration: none;
+    }
+    
+    .info-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: serif;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    
+    .info-icon:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+    }
+    
+    @media (max-width: 768px) {
+      .info-button {
+        top: 1rem;
+        right: 1rem;
+      }
+      
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- כפתור מידע בפינה הימנית העליונה -->
+  <div class="info-button">
+    <a href="i.html" title="מידע נוסף על הפיצ'רים">
+      <div class="info-icon">i</div>
+    </a>
+  </div>
+
+  <h1>מחשבון תקציב – אתר ההדרכה</h1>
+
+  <div id="proposal" class="card">
+    <div class="slider-wrap">
+      <label for="budgetRange">בחר תקציב ($):</label>
+      <input id="budgetRange" type="range" min="1" max="7" step="1" value="1" />
+      <span id="budgetVal" class="budget-val">$1,000</span>
+    </div>
+
+    <h2>מה מקבלים:</h2>
+    <ul id="featureList"></ul>
+
+    <button id="download">הורד PDF</button>
+  </div>
+
+  <footer>פותח ע״י ליאור • demo v1.0</footer>
+
+<script>
+/* טבלת תכולה משופרת – תמורה אמיתית בכל 1,000 $ */
+const tiers = {
+  1: {
+    label: '$1,000',
+    features: [
+      'אתר בסיסי – דפי MedicBook מעוצבים, רספונסיביים',
+      'רכישת דומיין ייעודי (medicbook.com או דומה)'
+    ]
+  },
+  2: {
+    label: '$2,000',
+    features: [
+      'כולל כל תכולת $1,000',
+      'מנגנון חידונים אוטומטי: יצירת שאלות ו-בדיקת תשובות',
+      'PDF תוצאות אוטומטי ונשלח למפקד במייל',
+      'לוח כניסה בסיסי למדריך (סיסמה אחת)'
+    ]
+  },
+  3: {
+    label: '$3,000',
+    features: [
+      'כולל כל תכולת $2,000',
+      'חשבון אישי לכל חניך – מעקב התקדמות ושמירת ציון',
+      'דשבורד חי למפקד: גרפים יומיים ושבועיים',
+      'סיכום יומי במייל על חניכים שלא תרגלו'
+    ]
+  },
+  4: {
+    label: '$4,000',
+    features: [
+      'כולל כל תכולת $3,000',
+      'ניהול קבצים מלא מהדפדפן: העלאה, מחיקה, תגיות',
+      'חיפוש מלא בעברית בתוך המסמכים (OCR והדגשת תוצאה)',
+      'ייצוא דוחות PDF לפי חניך או נושא בלחיצה',
+      'גיבוי שבועי אוטומטי לענן'
+    ]
+  },
+  5: {
+    label: '$5,000',
+    features: [
+      'כולל כל תכולת $4,000',
+      'צ׳אט-בוט שעונה על שאלות החומר בלבד',
+      'התראות בזמן אמת למפקד על טעויות נפוצות ונושאים חלשים',
+      'תשתית זמינות גבוהה + ניטור והתראות תקלה',
+      'מנגנון ניתוח התנהגות חניכים לזיהוי מגמות למידה'
+    ]
+  },
+  6: {
+    label: '$6,000',
+    features: [
+      'מערכת "מודיעין מלאה" עם 20 פיצ׳רים לניתוח מתקדם:',
+      'שעון "זמן לנושא הבא" (מתי הכיתה מוכנה להתקדם)',
+      'המלצת "שאלת בונוס יומית" אקראית',
+      'חידון "אמת או שמועה" להפרכת טעויות נפוצות',
+      'מדד "ביטחון עצמי" של חניך בתשובותיו',
+      'גרף "שיפור שבועי" אישי לכל חניך',
+      'התראה אוטומטית למדריך על שאלות עם מעל 30% טעויות',
+      'בוחן "30-שנייה" לפני כיבוי אורות עם דוח בוקר',
+      'סימון "טעויות קריטיות" בשאלות בטיחות',
+      'המלצת זוגות תרגול (חזק+חלש) אוטומטית',
+      'בדיקת רצף "שיעור - תרגול" בתוך 24 שעות',
+      'לוח משוב אנונימי למדריך על מגמות כיתתיות',
+      'מדד "קפיצה נושאית" לאיתור בעיות פוקוס',
+      'תזכורת אוטומטית לחזרה על טעויות לאחר 48 שעות',
+      'איתור "מצב רוח כיתה" (סקר אמוג\'י) וקשר לציונים',
+      'משימת "השג ואשר" עם העלאת תמונה לאישור מדריך',
+      'קו מגמת חוזק-חולשה לפי נושאים ברמת הקורס',
+      'ניהול "תזכורות חזרה" אישיות למניעת שכחה',
+      'הצגת סרטון וידאו קצר לאחר טעויות חוזרות בנושא'
+    ]
+  },
+  10: {
+    label: '$10,000',
+    features: [
+      'חבילת "פורצי דרך" עם 7 יכולות טכנולוגיות מתקדמות:',
+      '"היסטוריית החלטה" דינמית לניתוח בחירות בחידון',
+      'בוט "מרצה-על" סינתטי עם קול של מדריך מוכר',
+      'VR "מצלמה בגוף-מטופל" לאימון אמפתיה (דורש משקפיים)',
+      'AI-Split Screen להשוואת פעולה פיזית למודל 3D',
+      '"מצפן ידע" בזמן אמת לשאלות תלויות מיקום פיזי',
+      'זיהוי-קול רב-משתתפים לניתוח תרגול צוותי',
+      'אלגוריתם "רמת-אי-ודאות" לחישוב סיכון בהחלטה'
+    ]
+  }
+};
+
+const sliderToTierMap = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 10 };
+
+const rangeEl=document.getElementById('budgetRange');
+const valEl=document.getElementById('budgetVal');
+const listEl=document.getElementById('featureList');
+
+/* ציור רשימת התכונות */
+function render() {
+  const sliderValue = parseInt(rangeEl.value, 10);
+  const levelKey = sliderToTierMap[sliderValue];
+  const allFeatures = new Set();
+
+  // Iterate based on slider steps to collect features cumulatively
+  for (let i = 1; i <= sliderValue; i++) {
+    const currentTierKey = sliderToTierMap[i];
+    if (tiers[currentTierKey]) {
+      tiers[currentTierKey].features.forEach(f => allFeatures.add(f));
+    }
+  }
+
+  valEl.textContent = tiers[levelKey].label;
+
+  listEl.innerHTML = '';
+  [...allFeatures].forEach(feature => {
+    const li = document.createElement('li');
+    li.textContent = feature;
+    listEl.appendChild(li);
+  });
+}
+rangeEl.addEventListener('input',render);
+render();
+
+/* ייצוא PDF */
+document.getElementById('download').addEventListener('click',()=>{
+  // יצירת תוכן PDF בסגנון מחשב ישן
+  const sliderValue = parseInt(document.getElementById('budgetRange').value, 10);
+  const levelKey = sliderToTierMap[sliderValue];
+  const selectedTier = tiers[levelKey];
+  
+  // איסוף כל הפיצ'רים עד הרמה הנבחרת
+  const allFeatures = new Set();
+  for (let i = 1; i <= sliderValue; i++) {
+    const currentTierKey = sliderToTierMap[i];
+    if (tiers[currentTierKey]) {
+      tiers[currentTierKey].features.forEach(f => allFeatures.add(f));
+    }
+  }
+  
+  // יצירת HTML בסגנון רטרו
+  const retroContent = `
+    <!DOCTYPE html>
+    <html dir="rtl">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background: #ffffff;
+          color: #000000;
+          padding: 20px;
+          line-height: 1.6;
+          font-size: 14px;
+        }
+        .header {
+          border: 2px solid #333;
+          padding: 15px;
+          margin-bottom: 20px;
+          text-align: center;
+          background: #f8f9fa;
+        }
+        .title {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          color: #2563eb;
+        }
+        .section {
+          border: 1px solid #ddd;
+          padding: 15px;
+          margin-bottom: 15px;
+          background: #fff;
+        }
+        .section-title {
+          color: #1e40af;
+          font-weight: bold;
+          font-size: 16px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid #e5e7eb;
+          padding-bottom: 5px;
+        }
+        .budget-display {
+          color: #dc2626;
+          font-size: 22px;
+          font-weight: bold;
+          text-align: center;
+          border: 2px solid #dc2626;
+          padding: 15px;
+          margin: 15px 0;
+          background: #fef2f2;
+        }
+        .feature-list {
+          list-style: none;
+          padding: 0;
+        }
+        .feature-list li {
+          margin-bottom: 8px;
+          padding-right: 20px;
+          position: relative;
+          color: #374151;
+        }
+        .feature-list li:before {
+          content: '• ';
+          color: #2563eb;
+          font-weight: bold;
+          position: absolute;
+          right: 0;
+        }
+        .footer {
+          margin-top: 30px;
+          text-align: center;
+          color: #6b7280;
+          border-top: 1px solid #d1d5db;
+          padding-top: 15px;
+          font-size: 12px;
+        }
+        .logo {
+          text-align: center;
+          font-size: 16px;
+          font-weight: bold;
+          color: #2563eb;
+          margin: 15px 0;
+          padding: 10px;
+          border: 1px solid #2563eb;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div class="logo">MEDICBOOK BUDGET SYSTEM v2.0</div>
+        <div class="title">הצעת תקציב - מערכת הדרכה חדשנית</div>
+      </div>
+
+      <div class="budget-display">
+        תקציב נבחר: ${selectedTier.label}
+      </div>
+
+      <div class="section">
+        <div class="section-title">מפרט מלא - כל הפיצ'רים הכלולים:</div>
+        <ul class="feature-list">
+          ${[...allFeatures].map(feature => `<li>${feature}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title">פירוט שכבות התקציב:</div>
+        <ul class="feature-list">
+          <li>$1,000 - אתר בסיסי + דומיין</li>
+          <li>$2,000 - חידונים אוטומטיים + דוחות</li>
+          <li>$3,000 - חשבונות אישיים + דשבורד</li>
+          <li>$4,000 - ניהול קבצים + חיפוש מתקדם</li>
+          <li>$5,000 - צ'אט-בוט + ניתוח התנהגות</li>
+          <li>$6,000 - מערכת מודיעין 20 פיצ'רים</li>
+          <li>$10,000 - טכנולוגיות פורצות דרך</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title">מידע נוסף:</div>
+        <ul class="feature-list">
+          <li>כל התקציבים כוללים את השכבות הקודמות</li>
+          <li>מחירים בדולר אמריקאי</li>
+          <li>תחזוקה שנתית כלולה</li>
+          <li>אפשרות הרחבה עתידית</li>
+          <li>תמיכה טכנית מלאה</li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        <div>נוצר על ידי: מערכת MedicBook | תאריך: ${new Date().toLocaleDateString('he-IL')}</div>
+        <div>קובץ נוצר אוטומטית מהמחשבון האינטראקטיבי</div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  // יצירת אלמנט זמני
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = retroContent;
+  tempDiv.style.position = 'absolute';
+  tempDiv.style.left = '-9999px';
+  document.body.appendChild(tempDiv);
+
+  // הגדרות PDF
+  const opt = {
+    margin: 0.3,
+    filename: `MedicBook_Budget_${selectedTier.label.replace('$', '').replace(',', '')}_Professional.pdf`,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { 
+      scale: 1.5,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: 800,
+      height: 1200
+    },
+    jsPDF: { 
+      unit: 'in', 
+      format: 'a4', 
+      orientation: 'portrait'
+    }
+  };
+
+  // יצירת PDF
+  html2pdf()
+    .set(opt)
+    .from(tempDiv)
+    .save()
+    .then(() => {
+      document.body.removeChild(tempDiv);
+      console.log('PDF נוצר בהצלחה!');
+    })
+    .catch((error) => {
+      console.error('שגיאה ביצירת PDF:', error);
+      document.body.removeChild(tempDiv);
+      alert('אירעה שגיאה ביצירת הקובץ. אנא נסה שוב.');
+    });
+});
+
+// הסרת הסגנונות הישנים להדפסה
+document.head.insertAdjacentHTML('beforeend', printStyles);
+</script>
+</body>
+</html>
